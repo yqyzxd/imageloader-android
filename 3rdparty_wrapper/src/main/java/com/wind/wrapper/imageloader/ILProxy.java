@@ -20,6 +20,15 @@ public class ILProxy extends SimpleImageLoader {
         }
         return this;
     }
+
+    public IImageLoader blur(boolean blur, int radius, int sampling) {
+        if (loader instanceof SimpleImageLoader) {
+            SimpleImageLoader simpleImageLoader = (SimpleImageLoader) loader;
+            simpleImageLoader.blur(blur, radius, sampling);
+        }
+        return this;
+    }
+
     @Override
     public void show(int drawableId, ImageView iv) {
         loader.show(drawableId,iv);
