@@ -14,7 +14,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
-import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class GlideWrapper extends SimpleImageLoader {
 
@@ -54,7 +53,7 @@ public class GlideWrapper extends SimpleImageLoader {
                 .placeholder(mPlaceholderDrawable);
 
         if (mBlur) {
-            requestBuilder.apply(RequestOptions.bitmapTransform(new BlurTransformation(mContext, mBlurRadius, mBlurSampling)));
+            requestBuilder.apply(RequestOptions.bitmapTransform(new BlurTransformation(mBlurRadius, mBlurSampling)));
         }
         requestBuilder.into(iv);
     }
@@ -76,7 +75,7 @@ public class GlideWrapper extends SimpleImageLoader {
                 .load(uri)
                 .placeholder(mPlaceholderDrawable);
         if (mBlur) {
-            requestBuilder.apply(RequestOptions.bitmapTransform(new BlurTransformation(mContext, mBlurRadius, mBlurSampling)));
+            requestBuilder.apply(RequestOptions.bitmapTransform(new BlurTransformation(mBlurRadius, mBlurSampling)));
         }
 
         requestBuilder.into(new SimpleTarget<Drawable>() {
@@ -101,7 +100,7 @@ public class GlideWrapper extends SimpleImageLoader {
                     .load(drawableId)
                     .placeholder(mPlaceholderDrawable);
             if (mBlur) {
-                requestBuilder.apply(RequestOptions.bitmapTransform(new BlurTransformation(mContext, mBlurRadius, mBlurSampling)));
+                requestBuilder.apply(RequestOptions.bitmapTransform(new BlurTransformation(mBlurRadius, mBlurSampling)));
             }
             requestBuilder.into(iv);
         } catch (Exception e) {
