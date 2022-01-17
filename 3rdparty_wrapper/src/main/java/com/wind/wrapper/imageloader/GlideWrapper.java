@@ -22,7 +22,7 @@ public class GlideWrapper extends SimpleImageLoader {
     private int mBlurRadius = 20;
     private int mBlurSampling = 20;
     private int mPlaceholderDrawable;
-
+    private boolean mAsGif=false;
     private GlideWrapper(Context context) {
         this.mContext = context;
     }
@@ -44,18 +44,36 @@ public class GlideWrapper extends SimpleImageLoader {
     }
 
     @Override
+    IImageLoader asGif() {
+        mAsGif=true;
+        return this;
+    }
+
+    @Override
     public void show(String uri, ImageView iv) {
         if (isFinished()) {
             return;
         }
-        RequestBuilder<Drawable> requestBuilder = Glide.with(mContext)
-                .load(uri)
-                .placeholder(mPlaceholderDrawable);
 
-        if (mBlur) {
-            requestBuilder.apply(RequestOptions.bitmapTransform(new BlurTransformation(mBlurRadius, mBlurSampling)));
+        if (mAsGif){
+            Glide.with(mContext).asGif()
+                    .load(uri)
+                    .placeholder(mPlaceholderDrawable)
+                    .into(iv);
+        }else {
+            RequestBuilder<Drawable> requestBuilder = Glide.with(mContext)
+                    .load(uri)
+                    .placeholder(mPlaceholderDrawable);
+
+            if (mBlur) {
+                requestBuilder.apply(RequestOptions.bitmapTransform(new BlurTransformation(mBlurRadius, mBlurSampling)));
+            }
+            requestBuilder.into(iv);
         }
-        requestBuilder.into(iv);
+
+
+
+
     }
 
     private boolean isFinished() {
@@ -96,13 +114,23 @@ public class GlideWrapper extends SimpleImageLoader {
     @Override
     public void show(int drawableId, ImageView iv) {
         try {
-            RequestBuilder<Drawable> requestBuilder =  Glide.with(mContext)
-                    .load(drawableId)
-                    .placeholder(mPlaceholderDrawable);
-            if (mBlur) {
-                requestBuilder.apply(RequestOptions.bitmapTransform(new BlurTransformation(mBlurRadius, mBlurSampling)));
+
+            if (mAsGif){
+                Glide.with(mContext).asGif()
+                        .load(drawableId)
+                        .placeholder(mPlaceholderDrawable)
+                        .into(iv);
+            }else {
+                RequestBuilder<Drawable> requestBuilder =  Glide.with(mContext)
+                        .load(drawableId)
+                        .placeholder(mPlaceholderDrawable);
+                if (mBlur) {
+                    requestBuilder.apply(RequestOptions.bitmapTransform(new BlurTransformation(mBlurRadius, mBlurSampling)));
+                }
+                requestBuilder.into(iv);
             }
-            requestBuilder.into(iv);
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
