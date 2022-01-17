@@ -30,7 +30,7 @@ public class ILProxy extends SimpleImageLoader {
     }
 
     @Override
-    IImageLoader asGif() {
+    public IImageLoader asGif() {
         if (loader instanceof SimpleImageLoader) {
             SimpleImageLoader simpleImageLoader = (SimpleImageLoader) loader;
             simpleImageLoader.asGif();
