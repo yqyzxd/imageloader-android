@@ -1,6 +1,5 @@
 package com.github.yqyzxd.ilproxy
 
-import java.io.BufferedInputStream
 import java.io.File
 import java.io.InputStream
 
@@ -16,7 +15,13 @@ import java.io.InputStream
  *  作者姓名  修改时间   版本号     描述
  *
  */
-interface ILoad {
-    fun <T> load(source:T):IImageLoader
+interface ILoader {
+    fun load(url:String):IImageLoader
+    fun load(resourceId:Int):IImageLoader
+    fun load(file:File):IImageLoader
+    fun load(ips:InputStream):IImageLoader
 
+
+    fun placeholder(resuoureId:Int):ILoader
+    fun apply(decorator:IDecorator):ILoader
 }
