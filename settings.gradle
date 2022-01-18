@@ -9,3 +9,4 @@ dependencyResolutionManagement {
 rootProject.name = "imageloader-android"
 include ':app'
 include ':3rdparty_wrapper'
+include ':ilproxy'
