@@ -1,7 +1,11 @@
 package com.wind.wrapper.imageloader;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.widget.ImageView;
+
+import androidx.core.graphics.drawable.IconCompat;
+import androidx.vectordrawable.graphics.drawable.Animatable2Compat;
 
 public class ILProxy extends SimpleImageLoader {
     private IImageLoader loader;
@@ -13,7 +17,8 @@ public class ILProxy extends SimpleImageLoader {
         return new ILProxy(context);
     }
 
-    public IImageLoader placeholder(int placeholderDrawable){
+    @Override
+    public ILProxy placeholder(int placeholderDrawable){
         if (loader instanceof SimpleImageLoader){
             SimpleImageLoader simpleImageLoader= (SimpleImageLoader) loader;
             simpleImageLoader.placeholder(placeholderDrawable);
@@ -21,21 +26,25 @@ public class ILProxy extends SimpleImageLoader {
         return this;
     }
 
-    public IImageLoader blur(boolean blur, int radius, int sampling) {
+    @Override
+    public ILProxy blur(int radius, int sampling) {
         if (loader instanceof SimpleImageLoader) {
             SimpleImageLoader simpleImageLoader = (SimpleImageLoader) loader;
-            simpleImageLoader.blur(blur, radius, sampling);
+            simpleImageLoader.blur(radius, sampling);
+        }
+        return this;
+    }
+    @Override
+    public ILProxy asGif(int repeatCount, Animatable2Compat.AnimationCallback callback) {
+        if (loader instanceof SimpleImageLoader) {
+            SimpleImageLoader simpleImageLoader = (SimpleImageLoader) loader;
+            simpleImageLoader.asGif(repeatCount,callback);
         }
         return this;
     }
 
-    @Override
-    public IImageLoader asGif() {
-        if (loader instanceof SimpleImageLoader) {
-            SimpleImageLoader simpleImageLoader = (SimpleImageLoader) loader;
-            simpleImageLoader.asGif();
-        }
-        return this;
+    public ILProxy asGif() {
+       return asGif(ValueAnimator.INFINITE,null);
     }
 
     @Override
