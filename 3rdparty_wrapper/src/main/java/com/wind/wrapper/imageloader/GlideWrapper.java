@@ -29,6 +29,7 @@ public class GlideWrapper extends SimpleImageLoader {
     private BlurOptions mBlurOption;
     private GifOptions mGifOptions;
     private int mPlaceholderDrawable;
+    private boolean mAsBitmap;
     private GlideWrapper(Context context) {
         this.mContext = context;
     }
@@ -50,6 +51,12 @@ public class GlideWrapper extends SimpleImageLoader {
     @Override
     public GlideWrapper asGif(int repeatCount, Animatable2Compat.AnimationCallback callback) {
         mGifOptions=new GifOptions(repeatCount,callback);
+        return this;
+    }
+
+    @Override
+    public SimpleImageLoader asBitmap() {
+        mAsBitmap=true;
         return this;
     }
 
@@ -114,11 +121,21 @@ public class GlideWrapper extends SimpleImageLoader {
             if (mGifOptions!=null){
                 requestBuilder= Glide.with(mContext).asGif().listener(mGifRequestListener)
                         .load(source)
-                        .placeholder(mPlaceholderDrawable);
+                        .placeholder(mPlaceholderDrawable)
+                        .error(mPlaceholderDrawable);
             }else {
-                requestBuilder = Glide.with(mContext)
-                        .load(source)
-                        .placeholder(mPlaceholderDrawable);
+                if (mAsBitmap){
+                    requestBuilder = Glide.with(mContext).asBitmap()
+                            .load(source)
+                            .placeholder(mPlaceholderDrawable)
+                            .error(mPlaceholderDrawable);
+                }else {
+                    requestBuilder = Glide.with(mContext)
+                            .load(source)
+                            .placeholder(mPlaceholderDrawable)
+                            .error(mPlaceholderDrawable);
+                }
+
             }
             if (mBlurOption!=null) {
                 requestBuilder.apply(RequestOptions.bitmapTransform(new BlurTransformation(mBlurOption.getRadius(), mBlurOption.getSampling())));

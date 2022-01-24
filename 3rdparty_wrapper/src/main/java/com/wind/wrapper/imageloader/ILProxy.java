@@ -48,6 +48,11 @@ public class ILProxy extends SimpleImageLoader {
     }
 
     @Override
+    public SimpleImageLoader asBitmap() {
+        return null;
+    }
+
+    @Override
     public void show(int drawableId, ImageView iv) {
         loader.show(drawableId,iv);
     }
