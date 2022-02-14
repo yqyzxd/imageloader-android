@@ -99,13 +99,18 @@ public class GlideWrapper extends SimpleImageLoader {
             @Override
             public void onLoadFailed(@Nullable Drawable errorDrawable) {
                 super.onLoadFailed(errorDrawable);
-                listener.onLoadError(new RuntimeException("图片加载失败"));
+                if (listener!=null){
+                    listener.onLoadError(new RuntimeException("图片加载失败"));
+                }
+
             }
 
             @Override
             public void onResourceReady(@NonNull Drawable resource,
                                         @Nullable Transition<? super Drawable> transition) {
-                listener.onLoadSuccess(uri, resource);
+                if (listener!=null) {
+                    listener.onLoadSuccess(uri, resource);
+                }
             }
         });
     }
